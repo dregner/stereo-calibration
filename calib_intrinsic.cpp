@@ -43,7 +43,7 @@ void setup_calibration(int board_width, int board_height, int num_imgs,
     if (found)
     {
       cornerSubPix(gray, corners, cv::Size(5, 5), cv::Size(-1, -1),
-                   TermCriteria( TermCriteria::EPS | TermCriteria::COUNT, 30, 0.1));
+                   TermCriteria( TermCriteria::EPS | TermCriteria::MAX_ITER, 30, 0.1));
       drawChessboardCorners(gray, board_size, corners, found);
     }
     

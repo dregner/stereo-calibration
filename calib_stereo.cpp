@@ -24,12 +24,12 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
 
   for (int i = 1; i <= num_imgs; i++) {
     char left_img[100], right_img[100];
-    sprintf(left_img, "%s%s%d.jpg", leftimg_dir, leftimg_filename, i);
-    sprintf(right_img, "%s%s%d.jpg", rightimg_dir, rightimg_filename, i);
-    gray1 = imread(left_img, CV_LOAD_IMAGE_GRAYSCALE);
-    gray2 = imread(right_img, CV_LOAD_IMAGE_GRAYSCALE);
-    cvtColor(gray1, img1, CV_GRAY2BGR);
-    cvtColor(gray1, img2, CV_GRAY2BGR);
+    sprintf(left_img, "%s%s%d.png", leftimg_dir, leftimg_filename, i);
+    sprintf(right_img, "%s%s%d.png", rightimg_dir, rightimg_filename, i);
+    gray1 = imread(left_img, IMREAD_GRAYSCALE);
+    gray2 = imread(right_img, IMREAD_GRAYSCALE);
+    cvtColor(gray1, img1, COLOR_GRAY2BGR);
+    cvtColor(gray1, img2, COLOR_GRAY2BGR);
 
 
     bool found1 = false, found2 = false;
@@ -49,13 +49,13 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     if (found1)
     {
       cv::cornerSubPix(gray1, corners1, cv::Size(5, 5), cv::Size(-1, -1),
-  cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+  cv::TermCriteria(TermCriteria::EPS | TermCriteria::MAX_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray1, board_size, corners1, found1);
     }
     if (found2)
     {
       cv::cornerSubPix(gray2, corners2, cv::Size(5, 5), cv::Size(-1, -1),
-  cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+  cv::TermCriteria(TermCriteria::EPS | TermCriteria::MAX_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray2, board_size, corners2, found2);
     }
 
@@ -125,7 +125,7 @@ int main(int argc, char const *argv[])
   fsl["D"] >> D1;
   fsr["D"] >> D2;
   int flag = 0;
-  flag |= CV_CALIB_FIX_INTRINSIC;
+  flag |= CALIB_FIX_INTRINSIC;
   
   cout << "Read intrinsics" << endl;
   

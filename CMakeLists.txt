@@ -3,7 +3,7 @@ project(CALIB_CAM)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(OpenCV 3 REQUIRED)
+find_package(OpenCV 4 REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(calibrate calib_intrinsic.cpp popt_pp.h)
