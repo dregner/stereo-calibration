@@ -26,17 +26,18 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     char left_img[100], right_img[100];
     sprintf(left_img, "%s%s%d.jpg", leftimg_dir, leftimg_filename, i);
     sprintf(right_img, "%s%s%d.jpg", rightimg_dir, rightimg_filename, i);
-    img1 = imread(left_img, CV_LOAD_IMAGE_COLOR);
-    img2 = imread(right_img, CV_LOAD_IMAGE_COLOR);
-    cvtColor(img1, gray1, CV_BGR2GRAY);
-    cvtColor(img2, gray2, CV_BGR2GRAY);
+    gray1 = imread(left_img, CV_LOAD_IMAGE_GRAYSCALE);
+    gray2 = imread(right_img, CV_LOAD_IMAGE_GRAYSCALE);
+    cvtColor(gray1, img1, CV_GRAY2BGR);
+    cvtColor(gray1, img2, CV_GRAY2BGR);
+
 
     bool found1 = false, found2 = false;
 
-    found1 = cv::findChessboardCorners(img1, board_size, corners1,
-  CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
-    found2 = cv::findChessboardCorners(img2, board_size, corners2,
-  CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+    found1 = cv::findChessboardCorners(gray1, board_size, corners1,
+  CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_FILTER_QUADS);
+    found2 = cv::findChessboardCorners(gray2, board_size, corners2,
+  CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_FILTER_QUADS);
 
 
     if(!found1 || !found2){
@@ -83,31 +84,31 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
 
 int main(int argc, char const *argv[])
 {
-  char* leftcalib_file;
-  char* rightcalib_file;
-  char* leftimg_dir;
-  char* rightimg_dir;
-  char* leftimg_filename;
-  char* rightimg_filename;
-  char* out_file;
-  int num_imgs;
+  char leftcalib_file[68] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/cam_left.yml";
+  char rightcalib_file[69] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/cam_right.yml";
+  char leftimg_dir[56] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/";
+  char rightimg_dir[56] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/";
+  char leftimg_filename[5] = "left";
+  char rightimg_filename[6] = "right";
+  char out_file[72] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/stereo_calib.yml";
+  int num_imgs = 30;
 
-  static struct poptOption options[] = {
-    { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
-    { "leftcalib_file",'u',POPT_ARG_STRING,&leftcalib_file,0,"Left camera calibration","STR" },
-    { "rightcalib_file",'v',POPT_ARG_STRING,&rightcalib_file,0,"Right camera calibration","STR" },
-    { "leftimg_dir",'L',POPT_ARG_STRING,&leftimg_dir,0,"Directory containing left images","STR" },
-    { "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
-    { "leftimg_filename",'l',POPT_ARG_STRING,&leftimg_filename,0,"Left image prefix","STR" },
-    { "rightimg_filename",'r',POPT_ARG_STRING,&rightimg_filename,0,"Right image prefix","STR" },
-    { "out_file",'o',POPT_ARG_STRING,&out_file,0,"Output calibration filename (YML)","STR" },
-    POPT_AUTOHELP
-    { NULL, 0, 0, NULL, 0, NULL, NULL }
-  };
-
-  POpt popt(NULL, argc, argv, options, 0);
+//  static struct poptOption options[] = {
+//    { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
+//    { "leftcalib_file",'u',POPT_ARG_STRING,&leftcalib_file,0,"Left camera calibration","STR" },
+//    { "rightcalib_file",'v',POPT_ARG_STRING,&rightcalib_file,0,"Right camera calibration","STR" },
+//    { "leftimg_dir",'L',POPT_ARG_STRING,&leftimg_dir,0,"Directory containing left images","STR" },
+//    { "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
+//    { "leftimg_filename",'l',POPT_ARG_STRING,&leftimg_filename,0,"Left image prefix","STR" },
+//    { "rightimg_filename",'r',POPT_ARG_STRING,&rightimg_filename,0,"Right image prefix","STR" },
+//    { "out_file",'o',POPT_ARG_STRING,&out_file,0,"Output calibration filename (YML)","STR" },
+//    POPT_AUTOHELP
+//    { NULL, 0, 0, NULL, 0, NULL, NULL }
+//  };
+//
+//  POpt popt(NULL, argc, argv, options, 0);
   int c;
-  while((c = popt.getNextOpt()) >= 0) {}
+//  while((c = popt.getNextOpt()) >= 0) {}
 
   FileStorage fsl(leftcalib_file, FileStorage::READ);
   FileStorage fsr(rightcalib_file, FileStorage::READ);
