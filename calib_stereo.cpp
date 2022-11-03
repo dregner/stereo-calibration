@@ -24,12 +24,12 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
 
   for (int i = 1; i <= num_imgs; i++) {
     char left_img[100], right_img[100];
-    sprintf(left_img, "%s%s%d.png", leftimg_dir, leftimg_filename, i);
-    sprintf(right_img, "%s%s%d.png", rightimg_dir, rightimg_filename, i);
-    gray1 = imread(left_img, IMREAD_GRAYSCALE);
-    gray2 = imread(right_img, IMREAD_GRAYSCALE);
-    cvtColor(gray1, img1, COLOR_GRAY2BGR);
-    cvtColor(gray1, img2, COLOR_GRAY2BGR);
+    sprintf(left_img, "%s%s%d.tif", leftimg_dir, leftimg_filename, i);
+    sprintf(right_img, "%s%s%d.tif", rightimg_dir, rightimg_filename, i);
+    img1 = imread(left_img, IMREAD_COLOR);
+    img2 = imread(right_img, IMREAD_COLOR);
+    cvtColor(img1, gray1, COLOR_BGR2GRAY);
+    cvtColor(img2, gray2, COLOR_BGR2GRAY);
 
 
     bool found1 = false, found2 = false;
@@ -84,14 +84,14 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
 
 int main(int argc, char const *argv[])
 {
-  char leftcalib_file[68] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/cam_left.yml";
-  char rightcalib_file[69] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/cam_right.yml";
-  char leftimg_dir[56] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/";
-  char rightimg_dir[56] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/";
+  char leftcalib_file[68] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/4/cam_left.yml";
+  char rightcalib_file[69] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/4/cam_right.yml";
+  char leftimg_dir[56] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/4/";
+  char rightimg_dir[56] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/4/";
   char leftimg_filename[5] = "left";
   char rightimg_filename[6] = "right";
-  char out_file[72] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/3/stereo_calib.yml";
-  int num_imgs = 30;
+  char out_file[72] = "/home/vant3d/Documents/stereo-calibration/calib_imgs/4/stereo_calib.yml";
+  int num_imgs = 9;
 
 //  static struct poptOption options[] = {
 //    { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
